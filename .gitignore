@@ -1,7 +1,8 @@
 tecnotch.sublime-project
 tecnotch.sublime-workspace
-payment_config.php
-email_config.php
+config_payment.php
+config_email.php
+example_email_local.php
 *~
 savecc.php
 logs/*

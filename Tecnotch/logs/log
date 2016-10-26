@@ -1,0 +1,22 @@
+4
+1
+Errors: 
+1
+Errors: 
+1
+Errors: 
+1
+Errors: 
+[21-10-2016 06:02:21] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+[21-10-2016 06:03:54] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.sandbox.paypal.com/v1/oauth2/token
+
+Errors: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting
+
+Errors: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting
+1
+Errors: 
+1
+
+Errors: SMTP connect() failed. https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting
+1
+Errors: 

@@ -257,5 +257,113 @@ $mailer
 ```
 
 
-We use browserstack for testing 
+## Payment
+
+Payment library can be used to integrate different payments gateways in your website, for now Stripe and PayPal are supported
+
+There are no of examples included in root directory for performing various tasks related to payments.
+
+### Configuration for payment gateway
+Open config_payment.php and provide your payment gateway/processor configuration, for example if you are using paypal you can provide following configuration
+
+```php
+ {
+    "gateway" : "paypal",
+    "currency"  : "USD",
+    "mode"  : "test",
+    "merchant_email" : "yourbusiness@email",    
+    "api_key" : "restapikey",
+    "api_secret" : "restapisecret",
+    "api_signature" : "signature if used in your payment gateway, leave it as it is if you don't have",
+    "weight_unit" : "lbs",
+    "instructions" : "to set it live replace mode:test to mode:live"
+}
+```
+
+### Usage
+
+```php
+require_once 'Tecnotch/bootstrap.php';
+use \Tecnotch\Payment\Factory as Factory;
+
+//create standard payment i.e user has to pay on PayPal site
+$payment = Factory::simplePayment();
+
+$payment
+    //business email
+    
+    //store urls
+    ->setReturnUrl("http://www.example.php/return.php")
+    ->setCancelUrl("http://www.example.php/cancel.php")
+    ->setNotifyUrl("http://www.example.php/silent.php")
+    ->setShoppingUrl("http://www.example.php")
+    
+    //personal detail
+    ->setEmail("developer.tofeeq@gmail.com")
+    ->setFirstName("Tofeeq")
+    ->setLastName("Rehman")
+    
+    //personal billing address 
+    ->setStreet("Street 2")
+    ->setCity("Multan")
+    ->setState("Punjab")
+    ->setZip(60000)
+    ->setLocale("EN_US")
+    ->setPhone('923017874905')
+    
+    
+    ->setInvoice(123)
+ 
+    ->setParam('cmd', '_cart')
+    ->setParam('upload', 1)
+    
+    ->setParam('custom', 'sometext')
+    
+    
+    ;
+$items = array(
+  array(
+      "id" => 1,
+      "name" => "test item",
+      "quantity" => 3,
+      "price"   => 10,
+      "tax" => 1,
+      "shipping" => 4,
+      "handling" => 3,
+      "discount" => 2
+  ),
+  array(
+      "id" => 2,
+      "name" => "test item 2",
+      "quantity" => 4,
+      "price"   => 4,
+      "tax" => 2,
+      "shipping" => 3,
+      "handling" => 2,
+      "discount" => 2.5
+  )  
+);
+
+foreach ($items as $item) {
+    $payItem = new \Tecnotch\Payment\Item();
+    $payItem->setId($item['id'])
+        ->setName($item['name'])
+        ->setQuantity($item['quantity'])
+        ->setPrice($item['price'])
+        ->setTax($item['tax'])
+        ->setShipping($item['shipping'])
+        ->setHandling($item['handling'])
+        ->setDiscount($item['discount']);
+        
+    $payment->addItem($payItem);    
+}
+			
+$payment->setButton(array('value' => 'Subscribe', 'class' => ""))
+echo $payment->execute();
+
+
+```
+
+
 ![Alt text](browserstack-logo.jpg?raw=true "BrowserStack")
+We use browserstack for testing 

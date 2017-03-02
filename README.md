@@ -4,7 +4,7 @@ A handy and very easy to use library of different packages i.e sending emails bo
 ## Mail
 This package is most easiest way to send html template based emails using either by simple mail function or using smtp (swiftmailer or phpmailer etc)
 
-Tecnotch/Mail is php library created for sending emails with an ease using html templates and placeholders:
+Mail is php library created for sending emails with an ease using html templates and placeholders:
 
  * You can create html templates and placeholders to send email
  * Supports attachments
@@ -30,7 +30,7 @@ open config_email.php and provide your smtp host name, user name and password if
 ```
 
 
-**There is an example file included as email_examples.php **
+* There is an example file included as email_examples.php
 
 In your mail sending script just use
 ```php
@@ -73,10 +73,12 @@ $mailer
 
 ```php
 $mailer = Factory::mailer('simple');
-//keep them in order as they are below
+
 $placeholders = array(
 	"[user_name]" => "John Doe"
 );
+
+//keep the chain in order as they are below
 $mailer
     ->setPlaceholders($placeholders)
     ->setTemplatePath(__DIR__ . '/html/email/en')
@@ -142,10 +144,12 @@ $mailer->setSubject("Email with multiple attachments sent using simple mail func
 
 ```php
 $mailer = Factory::mailer('simple');
-//keep them in order as they are below
+ 
 $placeholders = array(
 	"[user_name]" => "John Doe"
 );
+
+//keep the chain in order as they are below
 $mailer
     ->setPlaceholders($placeholders)
     ->setTemplatePath(__DIR__ . '/html/email/en')

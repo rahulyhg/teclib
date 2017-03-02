@@ -1,10 +1,10 @@
-# teclib
-A very easy to use library of different packages i.e sending emails both simple and smtp, making payments using paypal or other payment processors ...
+# Teclib
+A handy and very easy to use library of different packages i.e sending emails both simple and smtp, making payments using paypal or other payment processors ...
 
-## Tecmail
-This is most easiest way to send html template based emails using either by simple mail function or using smtp (swiftmailer or phpmailer etc)
+## Mail
+This package is most easiest way to send html template based emails using either by simple mail function or using smtp (swiftmailer or phpmailer etc)
 
-Tecmail is php library created for sending emails with an ease using html templates and placeholders:
+Tecnotch/Mail is php library created for sending emails with an ease using html templates and placeholders:
 
  * You can create html templates and placeholders to send email
  * Supports attachments
@@ -16,46 +16,40 @@ It is very easy to use, just create a mailer object and start sending emails.
 ### Installation
 Git clone or download the repo in the directory where your mail sending script exists
 
-### Configuration
-open Tecnotch/Config.php and provide your smtp host name, user name and password 
+### Configuration for email if sending via smtp
+open config_email.php and provide your smtp host name, user name and password if you need to send emails using smtp, ignore it if you are going to use native mail function of php
 
 ```php
-const SMTP_HOST = 'smtp.gmail.com'; //provide your smtp host here 
-const SMTP_PORT = 465;		//provide smtp port
-//const SMTP_PORT = 587;
-
- const SMTP_USER = 'your gmail id'; //provide your smpt username
- const SMTP_PASS = 'your gmail password'; //provide your smtp password
-
- const SMTP_MAILER = 'swiftmailer';  //configure smtp backend 
-
- //or you can use phpmailer as below
- //const SMTP_MAILER = 'phpmailer';
+ {
+    "smtp_backend" 	: "phpmailer",
+    "smtp_host"  	: "smtp.gmail.com",
+    "smtp_port"  	: "465",
+    "smtp_username" : "your smtp username",
+    "smtp_password" : "your smtp password"
+}
 ```
+
+
+**There is an example file included as email_examples.php **
 
 In your mail sending script just use
 ```php
 require_once 'Tecnotch/bootstrap.php';
-use \Tecnotch;
+use \Tecnotch\Factory as Factory;
 ```
 Create mailer object and start sending emails 
 
-Please see **example.php** for usage
 
 ### Creating mailer object
 Create mailer which uses core php mail() function
 ```php
-$mailer = \Tecnotch\Factory::mailer('simple');
+$mailer = Factory::mailer('simple');
 ```
 
 Create SMTP mailer
 ```php
-$mailer = \Tecnotch\Factory::mailer('smtp');
-//You can configure backend as phpmailer or swiftmailer in Tecnotch/Config.php) 
-//Default: 
-const SMTP_MAILER = 'swiftmailer'; 
-//you can use phpmailer as below 
-const SMTP_MAILER = 'phpmailer';
+$mailer = Factory::mailer('smtp');
+//You can configure backend as phpmailer or swiftmailer in config_email.php
 ```
 
 ### Examples
@@ -64,7 +58,7 @@ const SMTP_MAILER = 'phpmailer';
 #### Sending a simple email using native mail() function of php 
 
 ```php
-$mailer = \Tecnotch\Factory::mailer('simple');
+$mailer = Factory::mailer('simple');
  
 $mailer
 	->setTo(array("email1@example.com" => "Tofeeq Rehman", "email2@example.com" => "Tof33q"))
@@ -78,7 +72,7 @@ $mailer
 #### Sending email based on html template and placeholders using native php mail() function 
 
 ```php
-$mailer = \Tecnotch\Factory::mailer('simple');
+$mailer = Factory::mailer('simple');
 //keep them in order as they are below
 $placeholders = array(
 	"[user_name]" => "John Doe"
@@ -95,9 +89,7 @@ $mailer
 #### Sending an email with one attachment using native php mail() function
 
 ```php
-$mailer = \Tecnotch\Factory::mailer('simple');
-//use reset to clear previous data if you are using already created $mailer object 
-//$mailer->reset();
+$mailer = Factory::mailer('simple');
 $mailer
 	->setTo(array("email1@example.com" => "Tofeeq Rehman", "email2@example.com" => "Tof33q"))
 	->setCc(array("email3@example.com" => "Tofeeq Testing", "email4@example.com" => "Dev Tofeeq"))
@@ -111,10 +103,7 @@ $mailer
 #### Sending an email with multiple attachments using native php mail() function
 
 ```php
-$mailer = \Tecnotch\Factory::mailer('simple');
-
-//use reset to clear previous data if you are using already created $mailer object 
-//$mailer->reset();
+$mailer = Factory::mailer('simple');
 
 $mailer
 	->setTo(array("email1@example.com" => "Tofeeq Rehman", "email2@example.com" => "Tof33q"))
@@ -152,7 +141,7 @@ $mailer->setSubject("Email with multiple attachments sent using simple mail func
 #### Sending email based on html template and placeholders with attachment(s) using native php mail() function 
 
 ```php
-$mailer = \Tecnotch\Factory::mailer('simple');
+$mailer = Factory::mailer('simple');
 //keep them in order as they are below
 $placeholders = array(
 	"[user_name]" => "John Doe"
@@ -175,12 +164,7 @@ $mailer
 #### Sending email using smtp (you can configure backend as phpmailer or swiftmailer in Tecnotch/Config.php)
 
 ```php
-//Default:
-//const SMTP_MAILER = 'swiftmailer';
-//you can use phpmailer as below
-//const SMTP_MAILER = 'phpmailer';
-
-$mailer = \Tecnotch\Factory::mailer('smtp');
+$mailer = Factory::mailer('smtp');
 $mailer
 	->setTo(array("email1@example.com" => "Tofeeq Rehman", "email2@example.com" => "Tof33q"))
 	->setCc(array("email3@example.com" => "Tofeeq Testing", "email4@example.com" => "Dev Tofeeq"))
@@ -198,7 +182,7 @@ $mailer
 $placeholders = array(
 	"[user_name]" => "John Doe"
 );
-$mailer = \Tecnotch\Factory::mailer('smtp');
+$mailer = Factory::mailer('smtp');
 $mailer
 	->setPlaceholders($placeholders)
     ->setTemplatePath(__DIR__ . '/html/email/en')
@@ -211,9 +195,8 @@ $mailer
 #### Sending an email with one attachment using smtp
 
 ```php
-$mailer = \Tecnotch\Factory::mailer('smtp');
-//use reset to clear previous data if you are using already created $mailer object 
-//$mailer->reset();
+$mailer = Factory::mailer('smtp');
+
 $mailer
 	->setTo(array("email1@example.com" => "Tofeeq Rehman", "email2@example.com" => "Tof33q"))
 	->setCc(array("email3@example.com" => "Tofeeq Testing", "email4@example.com" => "Dev Tofeeq"))
@@ -229,9 +212,8 @@ $mailer
 #### Sending an email with multiple attachments using smtp
 
 ```php
-$mailer = \Tecnotch\Factory::mailer('smtp');
-//use reset to clear previous data if you are using already created $mailer object 
-//$mailer->reset();
+$mailer = Factory::mailer('smtp');
+
 $mailer
 	->setTo(array("email1@example.com" => "Tofeeq Rehman", "email2@example.com" => "Tof33q"))
 	->setCc(array("email3@example.com" => "Tofeeq Testing", "email4@example.com" => "Dev Tofeeq"))
@@ -252,7 +234,9 @@ $mailer
 $placeholders = array(
 	"[user_name]" => "John Doe"
 );
-$mailer = \Tecnotch\Factory::mailer('smtp');
+
+$mailer = Factory::mailer('smtp');
+
 $mailer
     ->setPlaceholders($placeholders)
     ->setTemplatePath(__DIR__ . '/html/email/en')

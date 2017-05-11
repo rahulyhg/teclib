@@ -133,7 +133,7 @@ abstract class Abs implements I
  		if ($this->getTemplate()) {
  			return file_get_contents(rtrim($this->templatePath, '/') . '/' . $this->getTemplate());	
  		}
- 		return false;
+ 		return $this->getBody();
  	}
  	
  	public function parseTemplate()
@@ -156,7 +156,7 @@ abstract class Abs implements I
 	 		//echo "sub: " . $this->getSubject(); die;
 
 	 		
-	 		$this->setBody($_html);
+	 		$this->setBody($_html, false);
  		}
  	}
  	
@@ -201,8 +201,11 @@ abstract class Abs implements I
  		return $this->attachments;
  	}
 
- 	public function setBody($body) {
+ 	public function setBody($body, $parse = true) {
  		$this->body = $body;
+		if ($parse) {
+		    $this->parseTemplate();	
+		}
  		return $this;
  	}
 
